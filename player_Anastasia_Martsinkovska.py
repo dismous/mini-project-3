@@ -126,7 +126,7 @@ def step(player: int):
     h, w = field_information()
     field = parse_field(h, w)
     moves = all_possible_moves(player, field, parse_figure(), h, w)
-    if moves:  # Check if there are valid moves
+    if moves:
         rand = [0,1]
         random_move = random.choice(rand)
         move_now = sorted(moves)[-random_move]
@@ -144,10 +144,10 @@ def play(player: int):
     """
     while True:
         move = step(player)
-        if move is not None:  # Check if move is not None
+        if move is not None:
             print(*move)
         else:
-            break  # Exit the loop if there are no valid moves
+            break
 
 
 def parse_info_about_player():
