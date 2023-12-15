@@ -36,17 +36,15 @@ def get_figure():
 def calculate_possible_moves(player, field, figure, field_height, field_length):
     """
     Calculate all possible moves for the given player, field, and figure.
-    Prioritize moves that are closer to the center of the board and block the opponent.
-    In the late game, prioritize moves that block the most possible moves for the opponent.
+    Prioritize moves that are in the direction of the opponent's territory and on the boundary of the opponent's territory.
     """
     player1, player2 = ('O', 'X') if player == 1 else ('X', 'O')
 
     figure = [[cell.replace('*', player1) for cell in row] for row in figure]
 
-    blocking_moves = []
-    other_moves = []
+    possible_moves = []
 
-    center = [field_height // 2, field_length // 2]
+    opponent_positions = [(i, j) for i in range(field_height) for j in range(field_length) if field[i][j] == player2]
 
     for i in range(field_height - len(figure) + 1):
         for j in range(field_length - len(figure[0]) + 1):
@@ -55,29 +53,18 @@ def calculate_possible_moves(player, field, figure, field_height, field_length):
                         for l in range(len(figure[0])))
 
             is_valid = all(field[i+h][j+l] != player2 or figure[h][l] != player1 
-                           for h in range(len(figure)) 
+                           for h in range(len(figure))
                            for l in range(len(figure[0])))
             
             if count == 1 and is_valid:
-                is_blocking = any(field[i+h][j+l] == player2 
-                                  for h in range(-1, len(figure)+1) 
-                                  for l in range(-1, len(figure[0])+1) 
-                                  if 0 <= i+h < field_height and 0 <= j+l < field_length)
-                if is_blocking:
-                    blocking_moves.append([i, j])
-                else:
-                    other_moves.append([i, j])
+                move = [i, j]
+                distance_to_opponent = min(abs(i-x) + abs(j-y) for x, y in opponent_positions)
+                is_boundary = any(field[i+di][j+dj] == player2 for di, dj in [(-1, 0), (1, 0), (0, -1), (0, 1)] if 0 <= i+di < field_height and 0 <= j+dj < field_length)
+                weight = 0.5 if is_boundary else 1
+                possible_moves.append((move, weight * distance_to_opponent))
 
-    if abs(center[0] - i) <= 1 and abs(center[1] - j) <= 1:
-
-        blocking_moves.sort(key=lambda move: sum(field[move[0]+h][move[1]+l] == player2 for h in range(-1, len(figure)+1) 
-                                                 for l in range(-1, len(figure[0])+1) 
-                                                 if 0 <= move[0]+h < field_height and 0 <= move[1]+l < field_length), reverse=True)
-    else:
-        blocking_moves.sort(key=lambda move: abs(move[0] - center[0]) + abs(move[1] - center[1]))
-        other_moves.sort(key=lambda move: abs(move[0] - center[0]) + abs(move[1] - center[1]))
-
-    return blocking_moves + other_moves
+    possible_moves.sort(key=lambda x: x[1])
+    return [move for move, _ in possible_moves]
 
 def make_move(player):
     """
