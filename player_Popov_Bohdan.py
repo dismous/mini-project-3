@@ -1,5 +1,5 @@
 """
-Pentominoes game bot.
+Pentomino game bot.
 """
 
 from logging import DEBUG, debug, getLogger
