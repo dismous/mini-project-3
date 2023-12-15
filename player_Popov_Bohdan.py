@@ -1,7 +1,7 @@
 """
 Pentomino game bot.
 
-github: 
+github: https://github.com/dismous/mini-project-3
 p.s звіт в readme.md
 """
 
