@@ -35,6 +35,25 @@ def get_figure():
     figure = [list(input()) for _ in range(figure_height)]
     return figure
 
+def start_game(player):
+    """
+    Start the game for the given player.
+    """
+    while True:
+        move = make_move(player)
+        if move is not None:
+            print(*move)
+        else:
+            break
+
+
+def get_player_info():
+    """
+    Parse the player information from the input.
+    """
+    i = input()
+    return 1 if "p1 :" in i else 2
+
 
 def calculate_possible_moves(player, field, figure, field_height, field_length):
     """
@@ -83,25 +102,6 @@ def make_move(player):
         debug("No valid moves found.")
         return None
 
-
-def start_game(player):
-    """
-    Start the game for the given player.
-    """
-    while True:
-        move = make_move(player)
-        if move is not None:
-            print(*move)
-        else:
-            break
-
-
-def get_player_info():
-    """
-    Parse the player information from the input.
-    """
-    i = input()
-    return 1 if "p1 :" in i else 2
 
 
 def main():

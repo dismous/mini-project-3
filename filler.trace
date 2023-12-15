@@ -1,5 +1,5 @@
-seed = 8768
+seed = 9810
 O: error on input
-python ./player_Ikonnikov_Danyil.py won
+python ./player_Popov_Bohdan.py won
 Score:
-0AGAINST364
+317AGAINST0
