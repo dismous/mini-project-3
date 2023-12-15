@@ -36,7 +36,7 @@ def get_figure():
 def calculate_possible_moves(player, field, figure, field_height, field_length):
     """
     Calculate all possible moves for the given player, field, and figure.
-    Prioritize moves that are in the direction of the opponent's territory and on the boundary of the opponent's territory.
+    Prioritize moves that are in the direction of the opponent's territory and expands throughout the lategame.
     """
     player1, player2 = ('O', 'X') if player == 1 else ('X', 'O')
 
