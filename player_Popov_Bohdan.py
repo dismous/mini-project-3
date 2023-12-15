@@ -1,5 +1,8 @@
 """
 Pentomino game bot.
+
+github: 
+p.s звіт в readme.md
 """
 
 from logging import DEBUG, debug, getLogger
